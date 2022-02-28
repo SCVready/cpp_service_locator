@@ -6,7 +6,7 @@
 #include <functional>
 
 /*
- * Brief: Exception used by ServiceLocator when requesting an unregistered services
+ * Brief: Exception used by ServiceLocator when requesting unregistered services
  */
 class ServiceNotAvailable : public std::exception
 {
