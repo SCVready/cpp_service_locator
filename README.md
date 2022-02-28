@@ -17,10 +17,12 @@ The main function chooses which implementation of the decoder (hardware or softw
 *(this example don't include any real implementation apart of the ServiceLocator)*
 
 ## Building and running
+Clone the repo
 
-    git clone
+    git clone https://github.com/SCVready/cpp_service_locator
 
-### Locally:
+### Build Locally:
+
 Install dependencies:
 
     sudo apt install -y build-essential libgtest-dev libgmock-dev cmake
@@ -29,6 +31,6 @@ Run and build:
 
     ./build.sh
 
-### Docker container:
+### Build in Docker:
 
     docker run -it -v $(pwd):/service_locator --workdir /service_locator --user 1000:1000 scvready/ubuntu-gtest:latest ./build.sh
