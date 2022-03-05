@@ -2,9 +2,10 @@
 #ifndef LOGGER_INTERFACE_HPP
 #define LOGGER_INTERFACE_HPP
 
+#include <IocContainer.hpp>
 #include <string>
 
-class ILogger
+class ILogger : public ServiceBase
 {
     public:
         virtual ~ILogger() {};

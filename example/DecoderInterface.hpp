@@ -4,8 +4,9 @@
 
 #include <vector>
 #include <cstdint>
+#include <IocContainer.hpp>
 
-class IDecoder
+class IDecoder : public ServiceBase
 {
     public:
         virtual ~IDecoder() {};

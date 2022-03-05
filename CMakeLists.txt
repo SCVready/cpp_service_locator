@@ -4,19 +4,20 @@ cmake_minimum_required(VERSION 3.10)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-project(service_locator)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/bin)
 
-# UnitTests
-add_executable( service_locator_tests 
-                    src/ServiceLocator.cpp
-                    test/ServiceLocatorTests.cpp)
+project(ioc_container)
 
-target_link_libraries(service_locator_tests PUBLIC gtest gtest_main gmock pthread)
-target_include_directories(service_locator_tests PUBLIC inc test/mocks)
+# Library
+add_library(ioc_container SHARED
+                    src/IocContainer.cpp)
+
+target_include_directories(ioc_container PUBLIC inc)
 
 # Example
-add_executable( example
-                    src/ServiceLocator.cpp
+add_executable(example
                     example/main.cpp)
 
 target_include_directories(example PUBLIC inc example)
+target_link_libraries(example PUBLIC ioc_container)

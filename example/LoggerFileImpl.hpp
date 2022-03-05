@@ -9,11 +9,19 @@
 class FileLogger : public ILogger
 {
     public:
-        ~FileLogger() {};
+        FileLogger()
+        {
+            std::cout << "Logger [" << this << "] created" << std::endl;
+        };
+
+        ~FileLogger()
+        {
+            std::cout << "Logger [" << this << "] destroyed" << std::endl;
+        };
 
         void Log(const std::string& message) override
         {
-            std::cout << "FileLogger: " << message << std::endl;
+            std::cout << "Logger: " << message << std::endl;
         }
 };
 

@@ -2,4 +2,4 @@
 
 set -e
 
-mkdir -p build; cd build; cmake ..; make; ./service_locator_tests; ./example
+mkdir -p build; cd build; cmake ..; make; ../bin/example

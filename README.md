@@ -1,51 +1,58 @@
 
-# A C++ Service Locator
+# A C++ Dependency Injection framework
 
 This repository contains:
 - Source code: **src** and **inc** folders
-- UnitTests: **test** folder
 - Small example: **example** folder
 
-It can be easily integrated by copying the header and the source file into any C++11/14/17 project.
+After build the project ([see: Building the library and running the example](#Building-the-library-and-running-the-example)) there will be two more folders:
+- compiled library : **lib** folder
+- compiled example : **bin** folder
+
+Limitations:
+- It can only instantiate transient objects
+- Registered services cannot have more than 1 dependency
+- Registered services cannot have any input parameter in the constructor
 
 ## Usage:
 
-1. Add the following lines to the file/s that will use the ServiceLocator to register services ( this allows the compiler to know where to find the definition of the ServiceLocator's internal static data)
+1. Service interface classes must derive from `ServiceBase`.
 
-        template <typename Type>
-        extern std::function<std::shared_ptr<Type>(void)> ServiceLocator<Type>::m_service_retriever;
+2. To register services:
 
+    If the service has no dependencies:
 
-2. Register a service in the ServiceLocator:
+        IocContainer::GetSingleton().RegisterService<ServiceInterface, ServiceImplementation>();
 
-    Declare the std::function that the locator will use to return the object when it's requested:
-    i.e. a lambda that creates new objects:
+    If it has one dependency:
 
-        std::function<std::shared_ptr<NewService>(void)> service_retriever = [](){ return std::make_shared<NewService>(); };
+        IocContainer::GetSingleton().RegisterService<ServiceInterface, ServiceImplementation, ServiceDependency>();
 
-    Register the service passing as a parameter the created service_retriever function:
+3. Instantiate objects:
 
-        ServiceLocator<NewService>::RegisterService( service_retriever );
+        IocContainer::GetSingleton().GetService<ServiceInterface>();
 
-3. Access the object via the ServiceLocator:
+4. To remove services:
 
-        ServiceLocator<NewService>::GetService()
-
-4. Remove the Service from the ServiceLocator:
-
-        ServiceLocator<NewService>::RemoveService()
+        IocContainer::GetSingleton().RemoveService<ServiceInterface>();
 
 ## Example: VideoPlayer
 
-In this example, an hypothetical VideoPlayer uses 2 services to accomplish the task of presenting frames in the screen: a decoder to decode the frames, and a logger to record all ongoing actions.
+In this example, an hypothetical VideoPlayer uses 2 services to accomplish the task of presenting frames in the screen: a Decoder to decode frames, and a Logger to record all ongoing actions. VideoPlayer depends on the Decoder, and the Decoder depends on the Logger.
 
-Those dependencies are not injected to the VideoPlayer, instead they are accessed via the ServiceLocator.
+The chain of dependencies is: *VideoPlayer->Decoder->Logger*
 
-The main function chooses which implementation of the decoder (hardware or software decoder) and of the logger (file or network logger) to use.
+In the first part of main function:
+- These 3 services are registered in the IocContainer.
+- VideoPlayer and it's dependencies are instantiated and VideoPlayer::PresentFrame() is successfully called.
 
-*(this example don't include any real implementation apart of the ServiceLocator)*
+In the second part, cyclic dependency case is presented:
+- A similar environment than before, but a new Logger implementation has a dependency on the VideoPlayer, making the circular dependency *VideoPlayer->Decoder->Logger->VideoPlayer*
+- An exception is raised when trying to instantiate the VideoPlayer object
 
-## Building/running: tests and the example
+*(this example don't include any real implementation apart of the Dependency Injection Container)*
+
+## Building the library and running the example
 Clone the repo
 
     git clone https://github.com/SCVready/cpp_service_locator
