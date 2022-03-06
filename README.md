@@ -55,19 +55,19 @@ In the second part, cyclic dependency case is presented:
 ## Building the library and running the example
 Clone the repo
 
-    git clone https://github.com/SCVready/cpp_service_locator
-    cd cpp_service_locator
+    git clone -b ioc_container https://github.com/SCVready/cpp_service_locator ioc_container;
+    cd ioc_container;
 
 ### Build/running locally (Linux/Ubuntu20.04):
 
 Install dependencies:
 
-    sudo apt install -y build-essential libgtest-dev libgmock-dev cmake
+    sudo apt install -y build-essential libgtest-dev libgmock-dev cmake;
 
 Run and build:
 
-    ./build.sh
+    ./build.sh;
 
 ### Build/running in Docker (Linux):
 
-    docker run -it -v $(pwd):/service_locator --workdir /service_locator --user 1000:1000 scvready/ubuntu-gtest:latest ./build.sh
+    docker run -it -v $(pwd):/service_locator --workdir /service_locator --user 1000:1000 scvready/ubuntu-gtest:latest ./build.sh;
